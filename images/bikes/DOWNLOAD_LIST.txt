@@ -1,0 +1,38 @@
+BIKE IMAGES — Save these files to: images/bikes/
+=======================================================
+LOCAL FILES ONLY — no internet required once saved.
+If a file is missing, card shows a motorcycle silhouette.
+
+FILE NAME                        | BIKE MODEL
+---------------------------------|------------------------------
+bajaj_pulsar_ns200.jpg           | Bajaj Pulsar NS200
+bajaj_pulsar_rs200.jpg           | Bajaj Pulsar RS200
+bajaj_pulsar_n250.jpg            | Bajaj Pulsar N250
+bajaj_dominar_250.jpg            | Bajaj Dominar 250
+bajaj_dominar_400.jpg            | Bajaj Dominar 400
+ktm_200_duke.jpg                 | KTM 200 Duke
+ktm_rc_200.jpg                   | KTM RC 200
+ktm_250_duke.jpg                 | KTM 250 Duke
+ktm_390_duke.jpg                 | KTM 390 Duke
+ktm_rc_390.jpg                   | KTM RC 390
+re_hunter_350.jpg                | Royal Enfield Hunter 350
+re_meteor_350.jpg                | Royal Enfield Meteor 350
+re_classic_350.jpg               | Royal Enfield Classic 350
+re_scram_411.jpg                 | Royal Enfield Scram 411
+re_interceptor_650.jpg           | Royal Enfield Interceptor 650
+re_continental_gt_650.jpg        | Royal Enfield Continental GT 650
+tvs_apache_rtr_200.jpg           | TVS Apache RTR 200 4V
+tvs_apache_rr_310.jpg            | TVS Apache RR 310
+hero_xpulse_200.jpg              | Hero Xpulse 200 4V
+hero_karizma_xmr.jpg             | Hero Karizma XMR
+honda_hornet_2.jpg               | Honda Hornet 2.0
+honda_cb300r.jpg                 | Honda CB300R
+honda_cb650r.jpg                 | Honda CB650R
+yamaha_fzs_v3.jpg                | Yamaha FZ-S V3
+yamaha_mt03.jpg                  | Yamaha MT-03
+yamaha_yzf_r3.jpg                | Yamaha YZF-R3
+bmw_g310r.jpg                    | BMW G 310 R
+bmw_g310gs.jpg                   | BMW G 310 GS
+kawasaki_ninja_300.jpg           | Kawasaki Ninja 300
+kawasaki_z400.jpg                | Kawasaki Z400
+kawasaki_ninja_650.jpg           | Kawasaki Ninja 650

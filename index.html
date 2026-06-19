@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  BHAVAN'S BLACKSMITH MOTO — site build notes
+  =================================================================
+  Replace before going live:
+   - Phone / WhatsApp numbers  -> search "98XXXXXX"
+   - Email address             -> search "hello@blacksmithmoto.in"
+   - Street address & map      -> search "WORKSHOP_ADDRESS" and the <iframe> map query
+   - Prices in #pricing/#services are indicative starting prices — confirm real rates
+   - Testimonials are placeholder copy — swap for real customer reviews
+   - Stats in the hero strip (years/bikes serviced/rating) are placeholders
+  =================================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhavan's Blacksmith Moto — 200–650cc Performance Bike Service &amp; Repair, Bengaluru</title>
+<meta name="description" content="Bhavan's Blacksmith Moto — Bengaluru's performance bike workshop for the 200–650cc class: Pulsar NS200, KTM Duke/RC, Apache RR 310, Dominar, Ninja 300/650, Interceptor 650 &amp; more. Genuine parts, honest diagnostics, doorstep pickup.">
+<link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   0. TOKENS
+=============================================================== */
+:root{
+  --ink:#0d1828;        /* navy base */
+  --ink-2:#12203a;      /* navy raised */
+  --steel:#172a48;      /* navy panel */
+  --steel-2:#1f3556;    /* navy panel raised */
+  --line-dark: rgba(243,236,220,.12);
+  --cream:#f3ecdc;
+  --cream-2:#ebe0c6;
+  --paper:#fbf8f1;
+  --navy:#16294a;       /* navy surface + dark text on light */
+  --navy-2:#0b1730;     /* deepest navy (chips, topbar) */
+  --ember:#e23023;      /* RED accent */
+  --ember-2:#b3231b;    /* deep red */
+  --brass:#2f6fed;      /* BLUE accent */
+  --brass-2:#5b93ff;    /* light blue (sparks / glows) */
+  --ok:#2f6fed;         /* checks = blue */
+  --white:#ffffff;
+  --maxw:1260px;
+  --gap:24px;
+  --shadow-lg: 0 24px 60px rgba(0,0,0,.45);
+  --shadow-sm: 0 8px 22px rgba(0,0,0,.18);
+  --ease: cubic-bezier(.22,.9,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'Work Sans',-apple-system,Segoe UI,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:'Oswald',sans-serif;
+  text-transform:uppercase;
+  margin:0;
+  letter-spacing:.01em;
+  line-height:1.08;
+}
+p{margin:0 0 1em;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+ul{margin:0;padding:0;list-style:none;}
+button{font-family:inherit;cursor:pointer;}
+.mono{font-family:'JetBrains Mono',monospace;}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px;}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+.section{padding:96px 0;}
+@media(max-width:768px){.section{padding:64px 0;}}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--brass);
+  margin-bottom:18px;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--ember);display:inline-block;}
+
+.section-head{max-width:680px;margin-bottom:52px;}
+.section-head h2{font-size:clamp(30px,4.4vw,46px);color:var(--cream);}
+.on-light .section-head h2,.on-paper .section-head h2{color:var(--navy);}
+.section-head p{font-size:17px;color:rgba(243,236,220,.72);margin-top:14px;}
+.on-light .section-head p,.on-paper .section-head p{color:rgba(27,42,74,.72);}
+
+.on-light{background:var(--cream);color:var(--navy);}
+.on-paper{background:var(--paper);color:var(--navy);}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 28px;
+  font-family:'Oswald',sans-serif;
+  font-weight:600;font-size:14.5px;letter-spacing:.06em;text-transform:uppercase;
+  border:1.5px solid transparent;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--ember);color:var(--paper);}
+.btn-primary:hover{box-shadow:0 14px 30px rgba(210,59,46,.45);}
+.btn-ghost{background:transparent;color:var(--cream);border-color:rgba(243,236,220,.4);}
+.btn-ghost:hover{border-color:var(--brass);color:var(--brass);}
+.on-light .btn-ghost{color:var(--navy);border-color:rgba(27,42,74,.3);}
+.on-light .btn-ghost:hover{border-color:var(--ember);color:var(--ember);}
+.btn-brass{background:var(--brass);color:var(--navy-2);}
+.btn-brass:hover{box-shadow:0 14px 30px rgba(210,59,46,.4);}
+.btn-block{width:100%;}
+.btn .spark{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--brass-2);opacity:0;pointer-events:none;}
+
+/* ============================================================
+   1. ICON SPRITE
+=============================================================== */
+.i{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+/* ============================================================
+   2. TOP UTILITY BAR
+=============================================================== */
+.topbar{
+  background:var(--navy-2);
+  border-bottom:1px solid rgba(243,236,220,.08);
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.04em;
+  color:rgba(243,236,220,.78);
+}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;}
+.topbar a{display:inline-flex;align-items:center;gap:6px;}
+.topbar a:hover{color:var(--brass);}
+.topbar .tb-left{display:flex;gap:22px;}
+.topbar .i{width:14px;height:14px;}
+@media(max-width:700px){.topbar .tb-right{display:none;}}
+@media(max-width:520px){.topbar .tb-left span:nth-child(2){display:none;}}
+
+/* ============================================================
+   3. HEADER / NAV
+=============================================================== */
+header.site{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,23,48,.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-dark);
+  transition:padding .25s var(--ease);
+}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:14px;padding-bottom:14px;transition:padding .25s var(--ease);}
+header.site.shrink .wrap{padding-top:8px;padding-bottom:8px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand img{width:72px;height:72px;border-radius:50%;border:2px solid var(--brass);object-fit:cover;transition:width .25s,height .25s;}
+header.site.shrink .brand img{width:56px;height:56px;}
+.brand .word{display:flex;flex-direction:column;line-height:1.05;}
+.brand .word b{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:.02em;color:var(--cream);}
+.brand .word b em{font-style:normal;color:var(--ember);}
+.brand .word small{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--brass);text-transform:uppercase;margin-top:3px;}
+
+nav.primary{display:flex;align-items:center;gap:34px;}
+nav.primary a{
+  font-family:'Oswald',sans-serif;font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(243,236,220,.82);
+  position:relative;padding:4px 0;
+}
+nav.primary a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--ember);transition:width .25s var(--ease);}
+nav.primary a:hover{color:var(--cream);}
+nav.primary a:hover::after{width:100%;}
+.nav-actions{display:flex;align-items:center;gap:14px;}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px;}
+.hamburger span{width:24px;height:2px;background:var(--cream);transition:transform .25s,opacity .25s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+@media(max-width:980px){
+  nav.primary{
+    position:fixed;inset:0 0 0 30%;top:64px;
+    background:var(--ink-2);
+    flex-direction:column;align-items:flex-start;
+    padding:34px 30px;gap:22px;
+    border-left:1px solid var(--line-dark);
+    transform:translateX(100%);transition:transform .35s var(--ease);
+    overflow-y:auto;
+  }
+  nav.primary.open{transform:translateX(0);}
+  .nav-actions .btn-ghost{display:none;}
+  .hamburger{display:flex;}
+}
+@media(max-width:520px){nav.primary{inset:0 0 0 12%;}}
+
+/* ============================================================
+   4. HERO
+=============================================================== */
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse 900px 500px at 18% -10%, rgba(210,59,46,.18), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(210,59,46,.12), transparent 55%),
+    repeating-linear-gradient(125deg, rgba(255,255,255,.025) 0 2px, transparent 2px 64px),
+    linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  padding-top:96px;
+  border-bottom:1px solid var(--line-dark);
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-bottom:72px;}
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr;}}
+
+.hero h1{font-size:clamp(38px,5.6vw,68px);color:var(--cream);max-width:14ch;}
+.hero h1 .accent{color:var(--ember);}
+.hero-sub{font-size:18px;color:rgba(243,236,220,.74);max-width:48ch;margin:22px 0 32px;}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:46px;}
+
+.hero-art{
+  position:relative;
+  aspect-ratio:1/1;
+  border:1px solid var(--line-dark);
+  border-radius:22px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(210,59,46,.18), transparent 62%),
+    linear-gradient(160deg, var(--steel-2) 0%, var(--ink-2) 100%);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(243,236,220,.04), var(--shadow-lg);
+}
+.hero-art::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(135deg, rgba(243,236,220,.03) 0 2px, transparent 2px 22px);}
+.hero-art img{position:relative;z-index:2;width:86%;aspect-ratio:1/1;object-fit:cover;
+  border-radius:16px;border:1px solid rgba(243,236,220,.12);
+  box-shadow:0 24px 55px rgba(0,0,0,.6);
+  animation:floatLogo 6s var(--ease) infinite;}
+@keyframes floatLogo{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.hero-art .ring{position:absolute;inset:14px;border:1px dashed rgba(210,59,46,.3);border-radius:18px;}
+.hero-art .ring2{position:absolute;inset:30px;border:1px solid rgba(243,236,220,.06);border-radius:14px;}
+.spark-field{position:absolute;inset:0;pointer-events:none;}
+.spark-field i{
+  position:absolute;width:3px;height:3px;background:var(--brass-2);border-radius:50%;
+  opacity:0;animation:rise 3.6s ease-in infinite;
+  box-shadow:0 0 6px 1px rgba(232,103,90,.7);
+}
+@keyframes rise{
+  0%{opacity:0;transform:translateY(0) scale(1);}
+  10%{opacity:1;}
+  100%{opacity:0;transform:translateY(-160px) translateX(var(--dx,20px)) scale(.3);}
+}
+
+.stat-plate{
+  background:var(--steel-2);
+  border:1px solid var(--line-dark);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+}
+.stat-plate div{padding:26px 18px;text-align:center;border-right:1px solid var(--line-dark);}
+.stat-plate div:last-child{border-right:none;}
+.stat-plate b{display:block;font-family:'Oswald',sans-serif;font-size:clamp(22px,3vw,32px);color:var(--brass);}
+.stat-plate span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:rgba(243,236,220,.65);}
+@media(max-width:700px){.stat-plate{grid-template-columns:repeat(2,1fr);}.stat-plate div:nth-child(2){border-right:none;}.stat-plate div:nth-child(1),.stat-plate div:nth-child(2){border-bottom:1px solid var(--line-dark);}}
+
+/* hazard divider */
+.hazard{height:14px;background:repeating-linear-gradient(135deg, var(--ember) 0 22px, var(--brass) 22px 44px, var(--navy-2) 44px 66px);}
+
+/* ============================================================
+   5. MARQUEE / BRAND TICKER
+=============================================================== */
+.ticker{background:var(--navy);border-bottom:1px solid rgba(243,236,220,.08);overflow:hidden;}
+.ticker-track{display:flex;width:max-content;animation:tick 32s linear infinite;}
+.ticker-track span{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:16px 38px;
+  font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(243,236,220,.8);white-space:nowrap;
+}
+.ticker-track span::after{content:"✦";color:var(--brass);margin-left:14px;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ============================================================
+   6. REVEAL ANIMATION
+=============================================================== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease), transform .7s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.stagger > *{transition-delay:calc(var(--d,0) * 80ms);}
+
+/* ============================================================
+   7. ABOUT / WHY US
+=============================================================== */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+@media(max-width:900px){.why-grid{grid-template-columns:1fr;}}
+.why-list{display:grid;gap:18px;}
+.why-item{
+  display:flex;gap:16px;padding:20px;
+  background:var(--steel);border:1px solid var(--line-dark);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+.why-item .i{color:var(--brass);margin-top:2px;}
+.why-item h4{font-size:16px;color:var(--cream);margin-bottom:6px;letter-spacing:.02em;}
+.why-item p{font-size:14.5px;color:rgba(243,236,220,.65);margin:0;}
+
+.workshop-feat{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.wf-card{
+  background:var(--navy);border:1px solid rgba(243,236,220,.1);padding:24px 20px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+.wf-card .i{color:var(--ember);margin-bottom:14px;width:30px;height:30px;}
+.wf-card h4{font-size:15px;color:var(--cream);margin-bottom:6px;}
+.wf-card p{font-size:13.5px;color:rgba(243,236,220,.6);margin:0;}
+
+/* ============================================================
+   8. SERVICES (job-ticket cards)
+=============================================================== */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media(max-width:980px){.svc-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:620px){.svc-grid{grid-template-columns:1fr;}}
+
+.svc-card{
+  background:var(--paper);
+  border:1px solid rgba(27,42,74,.12);
+  padding:30px 26px 26px;
+  position:relative;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.svc-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-sm);}
+.svc-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--ember);}
+.svc-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--ember);margin-bottom:14px;display:block;}
+.svc-card .i{color:var(--navy);width:32px;height:32px;margin-bottom:16px;}
+.svc-card h3{font-size:19px;color:var(--navy);margin-bottom:10px;letter-spacing:.01em;}
+.svc-card p{font-size:14px;color:rgba(27,42,74,.68);margin-bottom:18px;}
+.svc-meta{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed rgba(27,42,74,.25);padding-top:14px;}
+.svc-meta .price{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--navy);font-size:14px;}
+.svc-meta .time{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:rgba(27,42,74,.55);}
+
+/* ============================================================
+   9. PROCESS TIMELINE
+=============================================================== */
+.process{position:relative;}
+.process-track{display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative;}
+.process-track::before{content:"";position:absolute;top:26px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg, rgba(243,236,220,.25) 0 8px, transparent 8px 16px);}
+@media(max-width:980px){.process-track{grid-template-columns:repeat(3,1fr);row-gap:48px;}.process-track::before{display:none;}}
+@media(max-width:600px){.process-track{grid-template-columns:1fr;}}
+.p-step{padding:0 14px;text-align:left;}
+.p-step .dot{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--steel-2);border:1px solid var(--brass);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Oswald',sans-serif;font-weight:600;color:var(--brass);font-size:17px;
+  margin-bottom:18px;position:relative;z-index:2;
+}
+.p-step h4{font-size:15.5px;color:var(--cream);margin-bottom:8px;letter-spacing:.02em;}
+.p-step p{font-size:13.5px;color:rgba(243,236,220,.6);margin:0;}
+
+/* ============================================================
+   10. BIKES WE SERVICE — blueprint grid
+=============================================================== */
+.bikes-section{
+  background:
+    linear-gradient(rgba(210,59,46,.05) 1px, transparent 1px) 0 0/40px 40px,
+    linear-gradient(90deg, rgba(210,59,46,.05) 1px, transparent 1px) 0 0/40px 40px,
+    var(--navy-2);
+  border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+}
+.filter-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;}
+.f-btn{
+  padding:10px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(243,236,220,.25);color:rgba(243,236,220,.75);
+  transition:all .2s var(--ease);
+}
+.f-btn:hover{border-color:var(--brass);color:var(--brass);}
+.f-btn.active{background:var(--ember);border-color:var(--ember);color:var(--paper);}
+
+.bike-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media(max-width:1080px){.bike-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:780px){.bike-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.bike-grid{grid-template-columns:1fr;}}
+
+.bike-card{
+  background:var(--steel);border:1px solid rgba(243,236,220,.1);
+  transition:transform .3s var(--ease), border-color .3s;
+}
+.bike-card:hover{transform:translateY(-5px);border-color:var(--brass);}
+.bike-art{
+  aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(210,59,46,.1), transparent 65%);
+  border-bottom:1px solid rgba(243,236,220,.1);
+  position:relative;
+  padding:14px;
+}
+.bike-art .i{width:80%;height:80%;color:var(--cream);opacity:.9;stroke-width:1.1;}
+.bike-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+.bike-card:hover .bike-art img{transform:scale(1.08);}
+.bike-card.hide{display:none;}
+
+/* ---- Gallery enhancement: per-brand colour, overlays, motion ---- */
+.bike-card{--bc:var(--brass);position:relative;overflow:hidden;border-radius:6px;
+  transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;}
+.bike-card[data-brand="bajaj"]{--bc:#2f80ed;}
+.bike-card[data-brand="ktm"]{--bc:#ff6a00;}
+.bike-card[data-brand="tvs"]{--bc:#2b9bd8;}
+.bike-card[data-brand="hero"]{--bc:#e6322a;}
+.bike-card[data-brand="honda"]{--bc:#e6322a;}
+.bike-card[data-brand="yamaha"]{--bc:#3a55d9;}
+.bike-card[data-brand="re"]{--bc:#c8602e;}
+.bike-card[data-brand="kawasaki"]{--bc:#56b62e;}
+.bike-card[data-brand="bmw"]{--bc:#3a86e0;}
+.bike-card:hover{transform:translateY(-7px);border-color:var(--bc);
+  box-shadow:0 22px 46px rgba(0,0,0,.5), 0 0 0 1px var(--bc);}
+.bike-art{padding:0;}
+.bike-art::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(13,18,24,0) 34%,rgba(13,18,24,.5) 76%,rgba(13,18,24,.92));}
+.bike-art .brand-tag{z-index:3;top:12px;left:12px;background:var(--bc);
+  border:1px solid rgba(255,255,255,.28);box-shadow:0 4px 12px rgba(0,0,0,.4);
+  font-weight:600;border-radius:3px;}
+.bike-cta{position:absolute;z-index:3;left:0;right:0;bottom:0;
+  display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;
+  font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.07em;font-size:13px;
+  color:#fff;background:var(--bc);transform:translateY(100%);transition:transform .32s var(--ease);}
+.bike-card:hover .bike-cta{transform:translateY(0);}
+/* brand logos (auto-used when files exist in images/brands/) */
+.f-btn{display:inline-flex;align-items:center;gap:8px;}
+.f-btn .f-logo{height:15px;width:auto;display:block;}
+.bike-art .brand-tag.has-logo{background:#fff;border-color:rgba(0,0,0,.14);padding:5px 9px;}
+.bike-art .brand-tag img.brand-logo{height:18px;width:auto;display:block;}
+.bike-body{border-left:3px solid var(--bc);}
+.bike-body h4{font-size:16.5px;}
+.bike-body .cc{color:var(--bc);filter:brightness(1.4) saturate(.85);}
+.bike-specs b{color:var(--cream);}
+.bike-card.pop{animation:bikePop .5s var(--ease) both;}
+@keyframes bikePop{from{opacity:0;transform:translateY(16px) scale(.96);}to{opacity:1;transform:none;}}
+.bike-count{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;
+  color:rgba(243,236,220,.55);margin:-20px 0 26px;}
+.bike-count b{color:var(--brass);}
+/* animated background glow behind the gallery */
+.bikes-section{position:relative;overflow:hidden;}
+.bikes-section .glow{position:absolute;inset:-10% 0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(620px 440px at 12% 6%, rgba(230,50,42,.18), transparent 60%),
+    radial-gradient(560px 440px at 88% 94%, rgba(210,59,46,.16), transparent 60%),
+    radial-gradient(420px 420px at 70% 30%, rgba(243,236,220,.06), transparent 60%);
+  animation:bgFloat 18s ease-in-out infinite alternate;}
+@keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1);}100%{transform:translate3d(0,-26px,0) scale(1.1);}}
+.bikes-section .wrap{position:relative;z-index:1;}
+@media (prefers-reduced-motion: reduce){.bikes-section .glow{animation:none;}}
+.bike-art .brand-tag{
+  position:absolute;top:10px;left:10px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--ember);color:var(--paper);padding:4px 8px;
+}
+.bike-body{padding:18px 18px 20px;}
+.bike-body h4{font-size:16px;color:var(--cream);margin-bottom:4px;letter-spacing:.01em;}
+.bike-body .cc{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--brass);margin-bottom:12px;display:block;}
+.bike-specs{display:flex;gap:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(243,236,220,.55);border-top:1px dashed rgba(243,236,220,.18);padding-top:12px;}
+.bike-specs b{color:rgba(243,236,220,.85);display:block;font-size:13px;}
+.blueprint-caption{margin-top:28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(243,236,220,.4);text-align:center;letter-spacing:.04em;}
+
+/* ============================================================
+   11. PRICING
+=============================================================== */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch;}
+@media(max-width:900px){.price-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto;}}
+.price-card{
+  background:var(--steel);border:1px solid var(--line-dark);
+  display:flex;flex-direction:column;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  padding:34px 28px;position:relative;
+}
+.price-card.feat{background:var(--navy);border-color:var(--brass);transform:scale(1.035);box-shadow:var(--shadow-lg);}
+@media(max-width:900px){.price-card.feat{transform:none;}}
+.price-tag{
+  position:absolute;top:-1px;right:18px;background:var(--brass);color:var(--navy-2);
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:6px 12px;
+}
+.price-card h3{font-size:21px;color:var(--cream);margin-bottom:6px;}
+.price-card .pnote{font-size:13px;color:rgba(243,236,220,.55);margin-bottom:18px;}
+.price-card .amt{font-family:'Oswald',sans-serif;font-size:38px;color:var(--brass);margin-bottom:4px;}
+.price-card .amt sup{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(243,236,220,.5);}
+.price-card .from{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:rgba(243,236,220,.45);margin-bottom:22px;display:block;}
+.price-list{display:grid;gap:11px;margin-bottom:26px;flex:1;}
+.price-list li{display:flex;gap:10px;font-size:13.8px;color:rgba(243,236,220,.78);align-items:flex-start;}
+.price-list .i{width:17px;height:17px;color:var(--ok);margin-top:3px;}
+
+/* ============================================================
+   12. TESTIMONIALS
+=============================================================== */
+.testi-wrap{position:relative;max-width:760px;margin:0 auto;}
+.testi-track{overflow:hidden;}
+.testi-slides{display:flex;transition:transform .5s var(--ease);}
+.t-slide{min-width:100%;padding:0 8px;}
+.t-card{
+  background:var(--paper);color:var(--navy);padding:42px 40px;text-align:center;
+  border:1px solid rgba(27,42,74,.12);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+}
+.t-stars{color:var(--brass);font-size:16px;letter-spacing:3px;margin-bottom:18px;}
+.t-card p.quote{font-size:18px;line-height:1.65;color:var(--navy);margin-bottom:24px;}
+.t-who b{display:block;font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:.02em;}
+.t-who span{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ember);}
+.testi-nav{display:flex;justify-content:center;gap:10px;margin-top:28px;}
+.testi-nav button{width:10px;height:10px;border-radius:50%;background:rgba(243,236,220,.25);border:none;padding:0;}
+.testi-nav button.active{background:var(--brass);}
+.testi-arrows{display:flex;justify-content:space-between;position:absolute;top:50%;left:-58px;right:-58px;transform:translateY(-50%);pointer-events:none;}
+.testi-arrows button{pointer-events:all;width:44px;height:44px;border-radius:50%;background:var(--steel-2);border:1px solid var(--line-dark);color:var(--cream);display:flex;align-items:center;justify-content:center;}
+.testi-arrows button:hover{border-color:var(--brass);color:var(--brass);}
+@media(max-width:860px){.testi-arrows{display:none;}}
+
+/* ============================================================
+   13. FAQ ACCORDION
+=============================================================== */
+.faq-wrap{max-width:780px;}
+.faq-item{border-bottom:1px solid rgba(27,42,74,.15);}
+.faq-q{
+  width:100%;text-align:left;background:none;border:none;padding:22px 4px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-family:'Oswald',sans-serif;font-size:17px;color:var(--navy);letter-spacing:.01em;
+}
+.faq-q .i{color:var(--ember);transition:transform .3s var(--ease);flex-shrink:0;}
+.faq-item.open .faq-q .i{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease);}
+.faq-a p{padding:0 4px 22px;font-size:14.5px;color:rgba(27,42,74,.7);max-width:62ch;}
+
+/* ============================================================
+   14. CTA BANNER
+=============================================================== */
+.cta-banner{
+  background:
+    linear-gradient(120deg, var(--ember) 0%, var(--ember-2) 100%);
+  position:relative;overflow:hidden;
+  padding:64px 0;
+}
+.cta-banner::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 2px, transparent 2px 26px);}
+.cta-inner{position:relative;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;}
+.cta-inner h2{color:var(--paper);font-size:clamp(24px,3.4vw,36px);max-width:18ch;}
+.cta-inner .btn-brass{box-shadow:0 14px 34px rgba(0,0,0,.25);}
+
+/* ============================================================
+   15. CONTACT
+=============================================================== */
+.contact-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;}
+@media(max-width:980px){.contact-grid{grid-template-columns:1fr;}}
+.contact-info{display:grid;gap:16px;align-content:start;}
+.ci-row{display:flex;gap:16px;padding:18px;background:var(--steel);border:1px solid var(--line-dark);clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));}
+.ci-row .i{color:var(--brass);margin-top:2px;}
+.ci-row h4{font-size:14px;color:var(--cream);margin-bottom:4px;letter-spacing:.04em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+.ci-row p{font-size:14.5px;color:rgba(243,236,220,.68);margin:0;}
+.map-box{margin-top:4px;border:1px solid var(--line-dark);height:200px;overflow:hidden;filter:grayscale(.3) contrast(1.05);}
+.map-box iframe{width:100%;height:100%;border:0;}
+.social-row{display:flex;gap:12px;margin-top:6px;}
+.social-row a{width:42px;height:42px;border:1px solid var(--line-dark);display:flex;align-items:center;justify-content:center;color:var(--cream);transition:all .2s;}
+.social-row a:hover{border-color:var(--brass);color:var(--brass);}
+
+.book-form{background:var(--paper);color:var(--navy);padding:36px;border:1px solid rgba(27,42,74,.12);clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));}
+.book-form h3{font-size:22px;color:var(--navy);margin-bottom:6px;}
+.book-form .pnote{font-size:13.5px;color:rgba(27,42,74,.6);margin-bottom:26px;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:560px){.f-row{grid-template-columns:1fr;}}
+.f-group{display:flex;flex-direction:column;gap:6px;}
+.f-group.full{grid-column:1/-1;}
+.f-group label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:rgba(27,42,74,.6);}
+.f-group input,.f-group select,.f-group textarea{
+  border:1px solid rgba(27,42,74,.25);background:var(--white);color:var(--navy);
+  padding:12px 14px;font-family:'Work Sans',sans-serif;font-size:14.5px;
+}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{border-color:var(--ember);}
+.f-group textarea{resize:vertical;min-height:90px;}
+.form-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:6px;flex-wrap:wrap;}
+.form-foot small{font-size:12px;color:rgba(27,42,74,.55);}
+
+/* ============================================================
+   16. FOOTER
+=============================================================== */
+footer{background:var(--ink-2);padding:64px 0 0;border-top:1px solid var(--line-dark);}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.1fr;gap:40px;padding-bottom:48px;}
+@media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.foot-grid{grid-template-columns:1fr;}}
+.foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.foot-brand img{width:68px;height:68px;border-radius:50%;border:2px solid var(--brass);object-fit:cover;}
+.foot-brand b{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:.02em;}
+.foot-brand b em{color:var(--ember);font-style:normal;}
+footer p.tag{font-size:13.5px;color:rgba(243,236,220,.55);max-width:32ch;}
+footer .kannada{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--brass);letter-spacing:.06em;margin-top:14px;}
+.foot-col h5{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-bottom:18px;}
+.foot-col ul{display:grid;gap:11px;}
+.foot-col a{font-size:14px;color:rgba(243,236,220,.68);}
+.foot-col a:hover{color:var(--cream);}
+.foot-bottom{border-top:1px solid var(--line-dark);padding:22px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.foot-bottom p{margin:0;font-size:12.5px;color:rgba(243,236,220,.45);font-family:'JetBrains Mono',monospace;}
+
+/* ============================================================
+   17. FLOATING UI
+=============================================================== */
+.fab-stack{position:fixed;right:22px;bottom:22px;z-index:90;display:flex;flex-direction:column;gap:12px;align-items:flex-end;}
+.fab{
+  width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-sm);border:none;color:#fff;transition:transform .2s var(--ease);
+}
+.fab:hover{transform:scale(1.08);}
+.fab-wa{background:#25D366;}
+.fab-call{background:var(--ember);}
+.fab-top{
+  background:var(--steel-2);border:1px solid var(--line-dark);color:var(--cream);
+  opacity:0;pointer-events:none;transform:translateY(10px);
+}
+.fab-top.show{opacity:1;pointer-events:all;transform:translateY(0);}
+
+.scrollbar-fill{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--ember),var(--brass));width:0;z-index:200;}
+
+/* ============================================================
+   18. EXTRA MOTION POLISH
+=============================================================== */
+/* shine sweep across buttons on hover */
+.btn::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;z-index:-1;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:skewX(-20deg);transition:left .6s var(--ease);}
+.btn:hover::after{left:150%;}
+/* card hover lifts */
+.why-item,.wf-card{transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);}
+.why-item:hover,.wf-card:hover{transform:translateY(-5px);border-color:rgba(210,59,46,.5);box-shadow:var(--shadow-sm);}
+.ci-row{transition:transform .3s var(--ease),border-color .3s var(--ease);}
+.ci-row:hover{transform:translateX(5px);border-color:rgba(210,59,46,.45);}
+/* stat cell highlight */
+.stat-plate div{transition:background .3s var(--ease);}
+.stat-plate div:hover{background:rgba(210,59,46,.08);}
+/* process dot pulse on hover */
+.p-step .dot{transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s;}
+.p-step:hover .dot{transform:scale(1.12);box-shadow:0 0 0 6px rgba(210,59,46,.12);}
+/* social icons */
+.social-row a{transition:transform .25s var(--ease),border-color .25s,color .25s;}
+.social-row a:hover{transform:translateY(-3px);}
+/* animated CTA banner gradient */
+.cta-banner{background-size:200% 200%;animation:ctaShift 9s ease infinite;}
+@keyframes ctaShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+/* gentle WhatsApp pulse */
+.fab-wa{animation:waPulse 2.6s ease-in-out infinite;}
+@keyframes waPulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.5);}50%{box-shadow:0 0 0 12px rgba(37,211,102,0);}}
+/* eyebrow accent line grows on reveal */
+.reveal .eyebrow::before{transition:width .6s var(--ease) .2s;}
+.reveal:not(.in) .eyebrow::before{width:0;}
+/* section headings rise slightly on hover for life */
+.svc-card .i,.wf-card .i{transition:transform .3s var(--ease);}
+.svc-card:hover .i,.wf-card:hover .i{transform:scale(1.12) rotate(-4deg);}
+@media (prefers-reduced-motion: reduce){
+  .hero-art img,.cta-banner,.fab-wa{animation:none !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE -->
+<svg style="display:none">
+<symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></symbol>
+<symbol id="ic-piston" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="7" rx="1"/><path d="M9 10v3M15 10v3"/><circle cx="12" cy="16" r="5"/><path d="M12 13.5v1M9.5 17.5l1-1M14.5 17.5l-1-1"/></symbol>
+<symbol id="ic-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/></symbol>
+<symbol id="ic-chain" viewBox="0 0 24 24"><ellipse cx="7" cy="8" rx="3.2" ry="2.4" transform="rotate(-35 7 8)"/><ellipse cx="12" cy="12" rx="3.2" ry="2.4" transform="rotate(-35 12 12)"/><ellipse cx="17" cy="16" rx="3.2" ry="2.4" transform="rotate(-35 17 16)"/></symbol>
+<symbol id="ic-battery" viewBox="0 0 24 24"><rect x="3" y="8" width="16" height="10" rx="1.5"/><path d="M19 11h2v4h-2"/><path d="M13 8V6M9 8V6"/><path d="M12 11l-2 3h3l-2 3"/></symbol>
+<symbol id="ic-spring" viewBox="0 0 24 24"><path d="M8 3v2M8 19v2M8 5c5 0 5 3.2 0 3.2S3 11.4 8 11.4s5 3.2 0 3.2-5 3.2 0 3.2"/></symbol>
+<symbol id="ic-spray" viewBox="0 0 24 24"><path d="M9 9h7l3-2v6l-3-2H9z"/><path d="M9 9v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h2"/><path d="M19 6V4M21 8h2M17 4l1-1"/></symbol>
+<symbol id="ic-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></symbol>
+<symbol id="ic-tyre" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5M5.8 5.8l3.5 3.5M14.7 14.7l3.5 3.5M5.8 18.2l3.5-3.5M14.7 9.3l3.5-3.5"/></symbol>
+<symbol id="ic-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="1.5"/><rect x="9" y="2.5" width="6" height="3" rx="1"/><path d="m8.5 13 2 2 4-4.2"/></symbol>
+<symbol id="ic-truck" viewBox="0 0 24 24"><rect x="2" y="7" width="12" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="m8.5 12 2.3 2.3L15.5 9.5"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.1 1.4 6.1L12 16.7 6.5 19.5l1.4-6.1-4.7-4.1 6.2-.6Z"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 2-2Z"/></symbol>
+<symbol id="ic-wa" viewBox="0 0 24 24"><path d="M4 20l1.4-4A8 8 0 1 1 8.6 19L4 20Z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5.6 0 1-.5.8-1l-.6-1.3a.8.8 0 0 0-1-.4l-.8.3a5 5 0 0 1-2.5-2.5l.3-.8a.8.8 0 0 0-.4-1L9.5 8c-.5-.2-1 .2-1 .8z"/></symbol>
+<symbol id="ic-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1"/></symbol>
+<symbol id="ic-fb" viewBox="0 0 24 24"><path d="M15 8.5h2V5h-2.3C12.5 5 11 6.6 11 9v2H9v3.5h2V21h3.5v-6.5H17l.5-3.5h-3V9c0-.5.3-1 1-1Z"/></symbol>
+<symbol id="ic-yt" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="3"/><path d="m10.5 9.5 5 2.5-5 2.5z"/></symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></symbol>
+<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+<symbol id="ic-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+<symbol id="ic-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+<symbol id="ic-bike" viewBox="0 0 64 40"><circle cx="11" cy="31" r="8"/><circle cx="50" cy="31" r="8"/><path d="M11 31h12l8-14h11l-5 14h13"/><path d="M23 17h9l4 6"/><path d="M37 8h8l-3 5"/><path d="M40 8h-6"/><path d="M19 24l4-7"/><path d="M50 31l-7-14h-5"/><path d="M5 31h1M55 31h1"/></symbol>
+</svg>
+
+<div class="scrollbar-fill" id="scrollFill"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="tb-left">
+      <a href="tel:+919035842066"><svg class="i"><use href="#ic-phone"/></svg><span>+91 90358 42066</span></a>
+      <a href="#"><svg class="i"><use href="#ic-pin"/></svg><span>Bengaluru, Karnataka</span></a>
+    </div>
+    <div class="tb-right">
+      <span>MON&ndash;SAT 9:30 AM&ndash;8:00 PM · SUN 10 AM&ndash;2 PM</span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site" id="siteHeader">
+  <div class="wrap">
+    <a href="#home" class="brand">
+      <img src="images/LOGO.jpg" alt="Bhavan's Blacksmith Moto crest">
+      <span class="word">
+        <b>BLACKSMITH <em>MOTO</em></b>
+        <small>Bhavan's · Service &amp; Repair</small>
+      </span>
+    </a>
+    <nav class="primary" id="primaryNav">
+      <a href="#services">Services</a>
+      <a href="#bikes">Bikes We Service</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#process">Process</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#contact" class="btn btn-ghost">Book Service</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal in">
+        <div class="eyebrow">Service &amp; Repair · Bengaluru's 200–650cc Specialists</div>
+        <h1>Precision service for India's fastest <span class="accent">200–650cc</span> machines.</h1>
+        <p class="hero-sub">From the Pulsar NS200 to the Kawasaki Ninja 650 — Bhavan's Blacksmith Moto is where Bengaluru's performance riders bring their machines for honest diagnostics, genuine-grade parts, and mechanics who actually ride what they fix.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary" id="bookBtn">Book a Service<svg class="i" style="width:18px;height:18px"><use href="#ic-chev"/></svg></a>
+          <a href="tel:+919035842066" class="btn btn-ghost"><svg class="i" style="width:18px;height:18px"><use href="#ic-phone"/></svg>Call the Workshop</a>
+        </div>
+        <div class="stat-plate">
+          <div><b class="counter" data-target="12">0</b><span>Years Wrenching</span></div>
+          <div><b class="counter" data-target="8400">0</b><span>Bikes Serviced</span></div>
+          <div><b><span class="counter" data-target="3.5" data-dec="1">0</span> hrs</b><span>Avg. Turnaround</span></div>
+          <div><b><span class="counter" data-target="4.9" data-dec="1">0</span>★</b><span>Rider Rating</span></div>
+        </div>
+      </div>
+      <div class="hero-art reveal in" style="transition-delay:.15s">
+        <div class="ring"></div>
+        <div class="ring2"></div>
+        <img src="images/LOGO.jpg" alt="Bhavan's Blacksmith Moto badge">
+        <div class="spark-field" id="sparkField"></div>
+      </div>
+    </div>
+  </div>
+  <div class="hazard"></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack">
+    <span>Bajaj</span><span>KTM</span><span>TVS</span><span>Hero MotoCorp</span><span>Honda</span><span>Yamaha</span><span>Royal Enfield</span><span>Suzuki</span><span>All Makes Welcome</span>
+    <span>Bajaj</span><span>KTM</span><span>TVS</span><span>Hero MotoCorp</span><span>Honda</span><span>Yamaha</span><span>Royal Enfield</span><span>Suzuki</span><span>All Makes Welcome</span>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Why Riders Choose Us</div>
+      <h2>We diagnose first. We don't swap parts and guess.</h2>
+      <p>Performance machines from 200 to 650cc — liquid-cooled engines, slipper clutches, ride-by-wire — need a workshop that understands them, not a general garage doing its best. That's the whole reason Bhavan's Blacksmith Moto exists.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-list reveal stagger">
+        <div class="why-item" style="--d:0"><svg class="i"><use href="#ic-shield"/></svg><div><h4>Genuine &amp; OEM-grade parts only</h4><p>Every part fitted is logged on your job card — no unmarked substitutes, ever.</p></div></div>
+        <div class="why-item" style="--d:1"><svg class="i"><use href="#ic-cpu"/></svg><div><h4>Performance-bike specialists</h4><p>Trained on liquid-cooled engines, ride modes, slipper clutches &amp; dual-channel ABS.</p></div></div>
+        <div class="why-item" style="--d:2"><svg class="i"><use href="#ic-clipboard"/></svg><div><h4>Transparent job card &amp; pricing</h4><p>You approve every line item before we touch a bolt. No surprise bills.</p></div></div>
+        <div class="why-item" style="--d:3"><svg class="i"><use href="#ic-truck"/></svg><div><h4>Doorstep pickup &amp; drop</h4><p>Across Bengaluru — book online, we collect your bike and bring it back.</p></div></div>
+      </div>
+      <div class="workshop-feat reveal stagger">
+        <div class="wf-card" style="--d:0"><svg class="i"><use href="#ic-disc"/></svg><h4>Diagnostic Bay</h4><p>OBD scanners &amp; multi-point checks before any quote is raised.</p></div>
+        <div class="wf-card" style="--d:1"><svg class="i"><use href="#ic-piston"/></svg><h4>Engine Bay</h4><p>Dedicated bay for top-end rebuilds &amp; liquid-cooling work.</p></div>
+        <div class="wf-card" style="--d:2"><svg class="i"><use href="#ic-spray"/></svg><h4>Detailing &amp; Paint</h4><p>Booth-finished denting, painting &amp; ceramic detailing.</p></div>
+        <div class="wf-card" style="--d:3"><svg class="i"><use href="#ic-shield"/></svg><h4>30-Day Service Warranty</h4><p>Every job backed by our workmanship guarantee.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section on-paper" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">What We Fix</div>
+      <h2>Service tickets, not guesswork.</h2>
+      <p>Every job — from a routine oil change to a full top-end rebuild — runs through the same diagnostic-first process. Starting prices below; final cost confirmed on your job card before work begins.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal" style="transition-delay:.02s">
+        <span class="svc-num">JOB / 01</span>
+        <svg class="i"><use href="#ic-wrench"/></svg>
+        <h3>General Service &amp; Tune-Up</h3>
+        <p>Oil &amp; filter change, chain lube &amp; tension, carb/throttle body clean, full safety check.</p>
+        <div class="svc-meta"><span class="price mono">₹799 onward</span><span class="time mono">~90 MIN</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.06s">
+        <span class="svc-num">JOB / 02</span>
+        <svg class="i"><use href="#ic-piston"/></svg>
+        <h3>Engine Overhaul &amp; Top-End Rebuild</h3>
+        <p>Piston, rings, valve &amp; gasket work for high-mileage or noisy liquid-cooled engines.</p>
+        <div class="svc-meta"><span class="price mono">₹4,999 onward</span><span class="time mono">2&ndash;3 DAYS</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.1s">
+        <span class="svc-num">JOB / 03</span>
+        <svg class="i"><use href="#ic-disc"/></svg>
+        <h3>Brake System Service</h3>
+        <p>Pad replacement, disc skimming, caliper clean &amp; brake fluid bleed for dual-channel ABS.</p>
+        <div class="svc-meta"><span class="price mono">₹599 onward</span><span class="time mono">~60 MIN</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.14s">
+        <span class="svc-num">JOB / 04</span>
+        <svg class="i"><use href="#ic-chain"/></svg>
+        <h3>Chain &amp; Sprocket Replacement</h3>
+        <p>O-ring chain &amp; sprocket kits fitted, aligned and torqued to spec.</p>
+        <div class="svc-meta"><span class="price mono">₹1,299 onward</span><span class="time mono">~75 MIN</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.18s">
+        <span class="svc-num">JOB / 05</span>
+        <svg class="i"><use href="#ic-battery"/></svg>
+        <h3>Electrical &amp; Battery Diagnostics</h3>
+        <p>Charging system, ECU fault codes, wiring &amp; battery health check.</p>
+        <div class="svc-meta"><span class="price mono">₹499 onward</span><span class="time mono">~45 MIN</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.22s">
+        <span class="svc-num">JOB / 06</span>
+        <svg class="i"><use href="#ic-spring"/></svg>
+        <h3>Suspension Setup &amp; Tuning</h3>
+        <p>Front fork &amp; mono-shock service, preload and rebound tuned to rider weight.</p>
+        <div class="svc-meta"><span class="price mono">₹999 onward</span><span class="time mono">~2 HRS</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.26s">
+        <span class="svc-num">JOB / 07</span>
+        <svg class="i"><use href="#ic-spray"/></svg>
+        <h3>Denting, Painting &amp; Restoration</h3>
+        <p>Booth-finished panel repair, colour-matched painting &amp; full restoration jobs.</p>
+        <div class="svc-meta"><span class="price mono">₹1,999 onward</span><span class="time mono">1&ndash;2 DAYS</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.3s">
+        <span class="svc-num">JOB / 08</span>
+        <svg class="i"><use href="#ic-cpu"/></svg>
+        <h3>Performance &amp; ECU Tuning</h3>
+        <p>Ride-mode mapping, throttle response &amp; performance diagnostics for Duke, RC &amp; NS owners.</p>
+        <div class="svc-meta"><span class="price mono">₹1,499 onward</span><span class="time mono">~2 HRS</span></div>
+      </div>
+      <div class="svc-card reveal" style="transition-delay:.34s">
+        <span class="svc-num">JOB / 09</span>
+        <svg class="i"><use href="#ic-tyre"/></svg>
+        <h3>Tyre, Wheel &amp; Alignment</h3>
+        <p>Tyre replacement, balancing, wheel-alignment &amp; puncture-proofing.</p>
+        <div class="svc-meta"><span class="price mono">₹399 onward</span><span class="time mono">~40 MIN</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process" id="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">How A Job Runs</div>
+      <h2>Six steps. Zero surprises.</h2>
+      <p>The same sequence for every bike that rolls in — whether it's a quick chain adjustment or a full rebuild.</p>
+    </div>
+    <div class="process-track">
+      <div class="p-step reveal" style="transition-delay:0s"><div class="dot">1</div><h4>Book &amp; Drop-off</h4><p>Online, by call, or doorstep pickup across Bengaluru.</p></div>
+      <div class="p-step reveal" style="transition-delay:.08s"><div class="dot">2</div><h4>Diagnostic Check</h4><p>Multi-point inspection &amp; fault-code scan, logged on your card.</p></div>
+      <div class="p-step reveal" style="transition-delay:.16s"><div class="dot">3</div><h4>Quote &amp; Approval</h4><p>You see exact parts &amp; labour cost before anything's touched.</p></div>
+      <div class="p-step reveal" style="transition-delay:.24s"><div class="dot">4</div><h4>Repair / Service</h4><p>Work carried out by the mechanic assigned to your make.</p></div>
+      <div class="p-step reveal" style="transition-delay:.32s"><div class="dot">5</div><h4>Quality Test Ride</h4><p>Every bike road-tested before handover, not just bench-checked.</p></div>
+      <div class="p-step reveal" style="transition-delay:.4s"><div class="dot">6</div><h4>Ride Out</h4><p>Handover with warranty card &amp; full job-card summary.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BIKES WE SERVICE -->
+<section class="section bikes-section" id="bikes">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Bikes We Service</div>
+      <h2>Built around the 200cc performance class.</h2>
+      <p>From 184cc streetfighters to 210cc sport-tourers — if it's quarter-litre performance, we've built a workshop around it. Don't see your bike? We service every make &amp; capacity, not just these.</p>
+    </div>
+    <div class="filter-row reveal" id="filterRow">
+      <button class="f-btn active" data-f="all">All Bikes</button>
+      <button class="f-btn" data-f="bajaj">Bajaj</button>
+      <button class="f-btn" data-f="ktm">KTM</button>
+      <button class="f-btn" data-f="tvs">TVS</button>
+      <button class="f-btn" data-f="hero">Hero</button>
+      <button class="f-btn" data-f="honda">Honda</button>
+      <button class="f-btn" data-f="yamaha">Yamaha</button>
+      <button class="f-btn" data-f="re">Royal Enfield</button>
+      <button class="f-btn" data-f="kawasaki">Kawasaki</button>
+      <button class="f-btn" data-f="bmw">BMW</button>
+    </div>
+    <div class="bike-grid" id="bikeGrid">
+
+      <!-- BAJAJ -->
+      <div class="bike-card" data-brand="bajaj">
+        <div class="bike-art"><img src="images/bikes/bajaj_pulsar_ns200.jpg" alt="Bajaj Pulsar NS200" loading="lazy"><span class="brand-tag">Bajaj</span></div>
+        <div class="bike-body"><h4>Pulsar NS200</h4><span class="cc">199.5 cc · Liquid-cooled</span><div class="bike-specs"><div><b>24.5 PS</b>Power</div><div><b>Triple-Spark</b>Engine</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="bajaj">
+        <div class="bike-art"><img src="images/bikes/bajaj_pulsar_rs200.jpg" alt="Bajaj Pulsar RS200" loading="lazy"><span class="brand-tag">Bajaj</span></div>
+        <div class="bike-body"><h4>Pulsar RS200</h4><span class="cc">199.5 cc · Faired</span><div class="bike-specs"><div><b>24.5 PS</b>Power</div><div><b>Fuel-Inj.</b>Feed</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="bajaj">
+        <div class="bike-art"><img src="images/bikes/bajaj_pulsar_n250.jpg" alt="Bajaj Pulsar N250" loading="lazy"><span class="brand-tag">Bajaj</span></div>
+        <div class="bike-body"><h4>Pulsar N250</h4><span class="cc">249 cc · Oil-cooled</span><div class="bike-specs"><div><b>24.5 PS</b>Power</div><div><b>21.5 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="bajaj">
+        <div class="bike-art"><img src="images/bikes/bajaj_dominar_250.jpg" alt="Bajaj Dominar 250" loading="lazy"><span class="brand-tag">Bajaj</span></div>
+        <div class="bike-body"><h4>Dominar 250</h4><span class="cc">248.8 cc · Liquid-cooled</span><div class="bike-specs"><div><b>27 PS</b>Power</div><div><b>23.5 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="bajaj">
+        <div class="bike-art"><img src="images/bikes/bajaj_dominar_400.jpg" alt="Bajaj Dominar 400" loading="lazy"><span class="brand-tag">Bajaj</span></div>
+        <div class="bike-body"><h4>Dominar 400</h4><span class="cc">373.3 cc · Liquid-cooled</span><div class="bike-specs"><div><b>40 PS</b>Power</div><div><b>35 Nm</b>Torque</div></div></div>
+      </div>
+
+      <!-- KTM -->
+      <div class="bike-card" data-brand="ktm">
+        <div class="bike-art"><img src="images/bikes/ktm_200_duke.jpg" alt="KTM 200 Duke" loading="lazy"><span class="brand-tag">KTM</span></div>
+        <div class="bike-body"><h4>200 Duke</h4><span class="cc">199.5 cc · Liquid-cooled</span><div class="bike-specs"><div><b>25 PS</b>Power</div><div><b>Ride-by-Wire</b>Throttle</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="ktm">
+        <div class="bike-art"><img src="images/bikes/ktm_250_duke.jpg" alt="KTM 250 Duke" loading="lazy"><span class="brand-tag">KTM</span></div>
+        <div class="bike-body"><h4>250 Duke</h4><span class="cc">248.8 cc · Liquid-cooled</span><div class="bike-specs"><div><b>30 PS</b>Power</div><div><b>24 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="ktm">
+        <div class="bike-art"><img src="images/bikes/ktm_390_duke.jpg" alt="KTM 390 Duke" loading="lazy"><span class="brand-tag">KTM</span></div>
+        <div class="bike-body"><h4>390 Duke</h4><span class="cc">398.6 cc · Liquid-cooled</span><div class="bike-specs"><div><b>46 PS</b>Power</div><div><b>Slipper</b>Clutch</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="ktm">
+        <div class="bike-art"><img src="images/bikes/ktm_rc_200.jpg" alt="KTM RC 200" loading="lazy"><span class="brand-tag">KTM</span></div>
+        <div class="bike-body"><h4>RC 200</h4><span class="cc">199.5 cc · Faired</span><div class="bike-specs"><div><b>25 PS</b>Power</div><div><b>19.2 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="ktm">
+        <div class="bike-art"><img src="images/bikes/ktm_rc_390.jpg" alt="KTM RC 390" loading="lazy"><span class="brand-tag">KTM</span></div>
+        <div class="bike-body"><h4>RC 390</h4><span class="cc">373.2 cc · Faired</span><div class="bike-specs"><div><b>43.5 PS</b>Power</div><div><b>Quickshifter</b>Gearbox</div></div></div>
+      </div>
+
+      <!-- TVS -->
+      <div class="bike-card" data-brand="tvs">
+        <div class="bike-art"><img src="images/bikes/tvs_apache_rtr_200.jpg" alt="TVS Apache RTR 200 4V" loading="lazy"><span class="brand-tag">TVS</span></div>
+        <div class="bike-body"><h4>Apache RTR 200 4V</h4><span class="cc">197.8 cc · Oil-cooled</span><div class="bike-specs"><div><b>20.8 PS</b>Power</div><div><b>Ride Modes</b>Tech</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="tvs">
+        <div class="bike-art"><img src="images/bikes/tvs_apache_rr_310.jpg" alt="TVS Apache RR 310" loading="lazy"><span class="brand-tag">TVS</span></div>
+        <div class="bike-body"><h4>Apache RR 310</h4><span class="cc">312.2 cc · Faired</span><div class="bike-specs"><div><b>34 PS</b>Power</div><div><b>27.3 Nm</b>Torque</div></div></div>
+      </div>
+
+      <!-- HERO -->
+      <div class="bike-card" data-brand="hero">
+        <div class="bike-art"><img src="images/bikes/hero_xpulse_200.jpg" alt="Hero Xpulse 200 4V" loading="lazy"><span class="brand-tag">Hero</span></div>
+        <div class="bike-body"><h4>Xpulse 200 4V</h4><span class="cc">199.6 cc · Adventure</span><div class="bike-specs"><div><b>19.1 PS</b>Power</div><div><b>21in Front</b>Wheel</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="hero">
+        <div class="bike-art"><img src="images/bikes/hero_karizma_xmr.jpg" alt="Hero Karizma XMR" loading="lazy"><span class="brand-tag">Hero</span></div>
+        <div class="bike-body"><h4>Karizma XMR</h4><span class="cc">210 cc · Liquid-cooled</span><div class="bike-specs"><div><b>25.5 PS</b>Power</div><div><b>20.4 Nm</b>Torque</div></div></div>
+      </div>
+
+      <!-- HONDA -->
+      <div class="bike-card" data-brand="honda">
+        <div class="bike-art"><img src="images/bikes/honda_hornet_2.jpg" alt="Honda Hornet 2.0" loading="lazy"><span class="brand-tag">Honda</span></div>
+        <div class="bike-body"><h4>Hornet 2.0</h4><span class="cc">184.4 cc · Air-cooled</span><div class="bike-specs"><div><b>17 PS</b>Power</div><div><b>USD Forks</b>Front</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="honda">
+        <div class="bike-art"><img src="images/bikes/honda_cb300r.jpg" alt="Honda CB300R" loading="lazy"><span class="brand-tag">Honda</span></div>
+        <div class="bike-body"><h4>CB300R</h4><span class="cc">286 cc · Liquid-cooled</span><div class="bike-specs"><div><b>31 PS</b>Power</div><div><b>27.5 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="honda">
+        <div class="bike-art"><img src="images/bikes/honda_cb650r.jpg" alt="Honda CB650R" loading="lazy"><span class="brand-tag">Honda</span></div>
+        <div class="bike-body"><h4>CB650R</h4><span class="cc">648.7 cc · Inline-4</span><div class="bike-specs"><div><b>87 PS</b>Power</div><div><b>Inline-4</b>Engine</div></div></div>
+      </div>
+
+      <!-- YAMAHA -->
+      <div class="bike-card" data-brand="yamaha">
+        <div class="bike-art"><img src="images/bikes/yamaha_fzs_v3.jpg" alt="Yamaha FZS-Fi V3" loading="lazy"><span class="brand-tag">Yamaha</span></div>
+        <div class="bike-body"><h4>FZS-Fi V3</h4><span class="cc">149 cc · Air-cooled</span><div class="bike-specs"><div><b>12.4 PS</b>Power</div><div><b>13.3 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="yamaha">
+        <div class="bike-art"><img src="images/bikes/yamaha_mt03.jpg" alt="Yamaha MT-03" loading="lazy"><span class="brand-tag">Yamaha</span></div>
+        <div class="bike-body"><h4>MT-03</h4><span class="cc">321 cc · Twin</span><div class="bike-specs"><div><b>42 PS</b>Power</div><div><b>Parallel-Twin</b>Engine</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="yamaha">
+        <div class="bike-art"><img src="images/bikes/yamaha_yzf_r3.jpg" alt="Yamaha YZF-R3" loading="lazy"><span class="brand-tag">Yamaha</span></div>
+        <div class="bike-body"><h4>YZF-R3</h4><span class="cc">321 cc · Faired Twin</span><div class="bike-specs"><div><b>42 PS</b>Power</div><div><b>29.6 Nm</b>Torque</div></div></div>
+      </div>
+
+      <!-- ROYAL ENFIELD -->
+      <div class="bike-card" data-brand="re">
+        <div class="bike-art"><img src="images/bikes/re_hunter_350.jpg" alt="Royal Enfield Hunter 350" loading="lazy"><span class="brand-tag">Royal Enfield</span></div>
+        <div class="bike-body"><h4>Hunter 350</h4><span class="cc">349 cc · Air-cooled</span><div class="bike-specs"><div><b>20.2 PS</b>Power</div><div><b>27 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="re">
+        <div class="bike-art"><img src="images/bikes/re_classic_350.jpg" alt="Royal Enfield Classic 350" loading="lazy"><span class="brand-tag">Royal Enfield</span></div>
+        <div class="bike-body"><h4>Classic 350</h4><span class="cc">349 cc · Air-cooled</span><div class="bike-specs"><div><b>20.2 PS</b>Power</div><div><b>J-Series</b>Engine</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="re">
+        <div class="bike-art"><img src="images/bikes/re_meteor_350.jpg" alt="Royal Enfield Meteor 350" loading="lazy"><span class="brand-tag">Royal Enfield</span></div>
+        <div class="bike-body"><h4>Meteor 350</h4><span class="cc">349 cc · Air-cooled</span><div class="bike-specs"><div><b>20.2 PS</b>Power</div><div><b>Cruiser</b>Type</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="re">
+        <div class="bike-art"><img src="images/bikes/re_scram_411.jpg" alt="Royal Enfield Scram 411" loading="lazy"><span class="brand-tag">Royal Enfield</span></div>
+        <div class="bike-body"><h4>Scram 411</h4><span class="cc">411 cc · Air-cooled</span><div class="bike-specs"><div><b>24.3 PS</b>Power</div><div><b>32 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="re">
+        <div class="bike-art"><img src="images/bikes/re_interceptor_650.jpg" alt="Royal Enfield Interceptor 650" loading="lazy"><span class="brand-tag">Royal Enfield</span></div>
+        <div class="bike-body"><h4>Interceptor 650</h4><span class="cc">648 cc · Twin</span><div class="bike-specs"><div><b>47 PS</b>Power</div><div><b>Parallel-Twin</b>Engine</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="re">
+        <div class="bike-art"><img src="images/bikes/re_continental_gt_650.jpg" alt="Royal Enfield Continental GT 650" loading="lazy"><span class="brand-tag">Royal Enfield</span></div>
+        <div class="bike-body"><h4>Continental GT 650</h4><span class="cc">648 cc · Café Racer</span><div class="bike-specs"><div><b>47 PS</b>Power</div><div><b>52 Nm</b>Torque</div></div></div>
+      </div>
+
+      <!-- KAWASAKI -->
+      <div class="bike-card" data-brand="kawasaki">
+        <div class="bike-art"><img src="images/bikes/kawasaki_ninja_300.jpg" alt="Kawasaki Ninja 300" loading="lazy"><span class="brand-tag">Kawasaki</span></div>
+        <div class="bike-body"><h4>Ninja 300</h4><span class="cc">296 cc · Twin</span><div class="bike-specs"><div><b>39 PS</b>Power</div><div><b>Parallel-Twin</b>Engine</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="kawasaki">
+        <div class="bike-art"><img src="images/bikes/kawasaki_z400.jpg" alt="Kawasaki Z400" loading="lazy"><span class="brand-tag">Kawasaki</span></div>
+        <div class="bike-body"><h4>Z400</h4><span class="cc">399 cc · Twin</span><div class="bike-specs"><div><b>45 PS</b>Power</div><div><b>37 Nm</b>Torque</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="kawasaki">
+        <div class="bike-art"><img src="images/bikes/kawasaki_ninja_650.jpg" alt="Kawasaki Ninja 650" loading="lazy"><span class="brand-tag">Kawasaki</span></div>
+        <div class="bike-body"><h4>Ninja 650</h4><span class="cc">649 cc · Twin</span><div class="bike-specs"><div><b>68 PS</b>Power</div><div><b>64 Nm</b>Torque</div></div></div>
+      </div>
+
+      <!-- BMW -->
+      <div class="bike-card" data-brand="bmw">
+        <div class="bike-art"><img src="images/bikes/bmw_g310r.jpg" alt="BMW G 310 R" loading="lazy"><span class="brand-tag">BMW</span></div>
+        <div class="bike-body"><h4>G 310 R</h4><span class="cc">313 cc · Liquid-cooled</span><div class="bike-specs"><div><b>34 PS</b>Power</div><div><b>Roadster</b>Type</div></div></div>
+      </div>
+      <div class="bike-card" data-brand="bmw">
+        <div class="bike-art"><img src="images/bikes/bmw_g310gs.jpg" alt="BMW G 310 GS" loading="lazy"><span class="brand-tag">BMW</span></div>
+        <div class="bike-body"><h4>G 310 GS</h4><span class="cc">313 cc · Adventure</span><div class="bike-specs"><div><b>34 PS</b>Power</div><div><b>28 Nm</b>Torque</div></div></div>
+      </div>
+
+    </div>
+    <p class="blueprint-caption reveal">▦ Schematic reference sketches — not manufacturer photography</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section on-light" id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Service Packages</div>
+      <h2 style="color:var(--navy)">Pick a tier, or we'll recommend one.</h2>
+      <p>Indicative starting prices for a 200cc-class single. Final pricing confirmed after diagnostic check.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal" style="transition-delay:0s">
+        <h3>Basic Care</h3>
+        <p class="pnote">Routine upkeep between major services</p>
+        <div class="amt">₹799<sup>+</sup></div>
+        <span class="from">Starting price</span>
+        <ul class="price-list">
+          <li><svg class="i"><use href="#ic-check"/></svg>Engine oil &amp; filter change</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Chain clean, lube &amp; tension</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Brake &amp; tyre pressure check</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Battery &amp; lights check</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Full bike wash</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost btn-block">Book Basic Care</a>
+      </div>
+      <div class="price-card feat reveal" style="transition-delay:.1s">
+        <span class="price-tag">Most Booked</span>
+        <h3>Performance Tune</h3>
+        <p class="pnote">For riders who push their 200cc</p>
+        <div class="amt">₹1,899<sup>+</sup></div>
+        <span class="from">Starting price</span>
+        <ul class="price-list">
+          <li><svg class="i"><use href="#ic-check"/></svg>Everything in Basic Care</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Carburetor / throttle body clean</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Suspension preload check</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>ECU fault-code scan</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Brake pad &amp; disc inspection</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Road test report</li>
+        </ul>
+        <a href="#contact" class="btn btn-brass btn-block">Book Performance Tune</a>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.2s">
+        <h3>Full Rebuild Care</h3>
+        <p class="pnote">Deep service for high-mileage bikes</p>
+        <div class="amt">₹4,499<sup>+</sup></div>
+        <span class="from">Starting price</span>
+        <ul class="price-list">
+          <li><svg class="i"><use href="#ic-check"/></svg>Everything in Performance Tune</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Top-end engine inspection</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Fork oil &amp; mono-shock service</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Full wiring harness check</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>Chain &amp; sprocket replacement</li>
+          <li><svg class="i"><use href="#ic-check"/></svg>30-day workmanship warranty</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost btn-block">Book Full Rebuild</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section on-paper" id="reviews">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center">Rider Reviews</div>
+      <h2>Sample placeholder reviews — swap in your real ones.</h2>
+    </div>
+    <div class="testi-wrap reveal">
+      <div class="testi-track">
+        <div class="testi-slides" id="testiSlides">
+          <div class="t-slide">
+            <div class="t-card">
+              <div class="t-stars">★★★★★</div>
+              <p class="quote">"Took my NS200 in for a top-end rattle two other garages couldn't diagnose. They found a worn cam chain tensioner in twenty minutes and showed me the part before replacing it."</p>
+              <div class="t-who"><b>Arjun R.</b><span>Pulsar NS200 Owner</span></div>
+            </div>
+          </div>
+          <div class="t-slide">
+            <div class="t-card">
+              <div class="t-stars">★★★★★</div>
+              <p class="quote">"First workshop that actually understood ride modes on my Duke. Got the throttle mapping sorted and explained every line on the job card before I paid."</p>
+              <div class="t-who"><b>Tejas M.</b><span>KTM 200 Duke Owner</span></div>
+            </div>
+          </div>
+          <div class="t-slide">
+            <div class="t-card">
+              <div class="t-stars">★★★★★</div>
+              <p class="quote">"Doorstep pickup saved me a half-day off work. Bike came back washed, with a printed report and a 30-day warranty card. Easy decision next service."</p>
+              <div class="t-who"><b>Sneha K.</b><span>Apache RTR 200 4V Owner</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-nav" id="testiNav"></div>
+      <div class="testi-arrows">
+        <button id="tPrev" aria-label="Previous review"><svg class="i" style="transform:rotate(90deg)"><use href="#ic-chev"/></svg></button>
+        <button id="tNext" aria-label="Next review"><svg class="i" style="transform:rotate(-90deg)"><use href="#ic-chev"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section on-light" id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Common Questions</div>
+      <h2 style="color:var(--navy)">Before you book.</h2>
+    </div>
+    <div class="faq-wrap reveal">
+      <div class="faq-item open">
+        <button class="faq-q">Do you use genuine or OEM-grade parts?<svg class="i"><use href="#ic-chev"/></svg></button>
+        <div class="faq-a"><p>Yes — every part fitted is genuine or OEM-grade, listed by brand and part number on your job card. We never substitute without your approval.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you service bikes that are out of manufacturer warranty?<svg class="i"><use href="#ic-chev"/></svg></button>
+        <div class="faq-a"><p>Absolutely. Most of our work is on bikes past their free-service period — that's where independent diagnostic skill matters most.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How long does a general service take?<svg class="i"><use href="#ic-chev"/></svg></button>
+        <div class="faq-a"><p>A standard Basic Care service typically takes 60&ndash;90 minutes if you wait, or same-day if dropped off in the morning.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you offer pickup and drop?<svg class="i"><use href="#ic-chev"/></svg></button>
+        <div class="faq-a"><p>Yes, across Bengaluru. Select "Pickup &amp; Drop" when booking and we'll confirm a slot over WhatsApp.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is there a warranty on repairs?<svg class="i"><use href="#ic-chev"/></svg></button>
+        <div class="faq-a"><p>Every repair carries a 30-day workmanship warranty. Parts carry their manufacturer warranty where applicable.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I track what's happening with my bike?<svg class="i"><use href="#ic-chev"/></svg></button>
+        <div class="faq-a"><p>You'll get a WhatsApp update at each stage — diagnosis, quote approval, work-in-progress, and a road-test report before handover.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="wrap cta-inner">
+    <h2>Your bike's next service is one message away.</h2>
+    <a href="#contact" class="btn btn-brass">Book Now<svg class="i" style="width:18px;height:18px"><use href="#ic-chev"/></svg></a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Get In Touch</div>
+      <h2>Book your service slot.</h2>
+      <p>Fill the form and it'll open as a ready-to-send WhatsApp message to the workshop — or call/visit us directly.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal stagger">
+        <div class="ci-row" style="--d:0"><svg class="i"><use href="#ic-phone"/></svg><div><h4>Call / WhatsApp</h4><p>+91 90358 42066</p></div></div>
+        <div class="ci-row" style="--d:1"><svg class="i"><use href="#ic-mail"/></svg><div><h4>Email</h4><p>hello@blacksmithmoto.in</p></div></div>
+        <div class="ci-row" style="--d:2"><svg class="i"><use href="#ic-pin"/></svg><div><h4>Workshop Address</h4><p>Bhavan's Blacksmith Moto, [Street / Area], Bengaluru, Karnataka — [PIN]</p></div></div>
+        <div class="ci-row" style="--d:3"><svg class="i"><use href="#ic-clock"/></svg><div><h4>Working Hours</h4><p>Mon&ndash;Sat: 9:30 AM&ndash;8:00 PM · Sun: 10 AM&ndash;2 PM</p></div></div>
+        <div class="map-box reveal"><iframe loading="lazy" title="Workshop location map" src="https://maps.google.com/maps?q=12.8884528,77.6305791&z=16&output=embed"></iframe></div>
+        <a href="https://maps.app.goo.gl/SzmF7nxxDQKZtHg76" target="_blank" rel="noopener" class="btn btn-ghost" style="margin-top:4px"><svg class="i" style="width:18px;height:18px"><use href="#ic-pin"/></svg>Get Directions</a>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram"><svg class="i"><use href="#ic-insta"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg class="i"><use href="#ic-fb"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg class="i"><use href="#ic-yt"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg class="i"><use href="#ic-wa"/></svg></a>
+        </div>
+      </div>
+
+      <form class="book-form reveal" id="bookForm" style="transition-delay:.1s">
+        <h3>Booking Request</h3>
+        <p class="pnote">Sends straight to our WhatsApp — no account needed.</p>
+        <div class="f-row">
+          <div class="f-group"><label for="fName">Your Name</label><input id="fName" required placeholder="Full name"></div>
+          <div class="f-group"><label for="fPhone">Phone Number</label><input id="fPhone" required type="tel" placeholder="10-digit mobile"></div>
+        </div>
+        <div class="f-row">
+          <div class="f-group"><label for="fBike">Bike Model</label>
+            <select id="fBike">
+              <option>Bajaj Pulsar NS200</option>
+              <option>Bajaj Pulsar RS200</option>
+              <option>KTM 200 Duke</option>
+              <option>KTM RC 200</option>
+              <option>TVS Apache RTR 200 4V</option>
+              <option>Hero Xpulse 200 4V</option>
+              <option>Honda Hornet 2.0</option>
+              <option>Hero Karizma XMR</option>
+              <option>Other / Not Listed</option>
+            </select>
+          </div>
+          <div class="f-group"><label for="fService">Service Needed</label>
+            <select id="fService">
+              <option>Basic Care Service</option>
+              <option>Performance Tune Service</option>
+              <option>Full Rebuild Care</option>
+              <option>Engine Overhaul</option>
+              <option>Brake Service</option>
+              <option>Denting &amp; Painting</option>
+              <option>Pickup &amp; Drop Request</option>
+              <option>Not Sure / Need Advice</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-row">
+          <div class="f-group full"><label for="fDate">Preferred Date</label><input id="fDate" type="date"></div>
+        </div>
+        <div class="f-row">
+          <div class="f-group full"><label for="fMsg">Anything else we should know?</label><textarea id="fMsg" placeholder="Describe the issue, sound, or symptom..."></textarea></div>
+        </div>
+        <div class="form-foot">
+          <small>We'll confirm your slot over WhatsApp within the hour.</small>
+          <button type="submit" class="btn btn-primary">Send Booking<svg class="i" style="width:18px;height:18px"><use href="#ic-wa"/></svg></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <img src="images/LOGO.jpg" alt="Bhavan's Blacksmith Moto crest">
+          <b>BLACKSMITH <em>MOTO</em></b>
+        </div>
+        <p class="tag">Built with passion, ridden with pride. Bengaluru's diagnostic-first workshop for the 200–650cc performance class.</p>
+        <p class="kannada">ಓಂ ನಮಃ ಶಿವಾಯ</p>
+      </div>
+      <div class="foot-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#bikes">Bikes We Service</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">General Service</a></li>
+          <li><a href="#services">Engine Overhaul</a></li>
+          <li><a href="#services">Brake Service</a></li>
+          <li><a href="#services">Performance Tuning</a></li>
+          <li><a href="#services">Denting &amp; Painting</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+919035842066">+91 90358 42066</a></li>
+          <li><a href="mailto:hello@blacksmithmoto.in">hello@blacksmithmoto.in</a></li>
+          <li><a href="#contact">Bengaluru, Karnataka</a></li>
+          <li><a href="#contact">Book a Service →</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="yearNow"></span> Bhavan's Blacksmith Moto. All rights reserved.</p>
+      <p>Service &amp; Repair · Built With Passion · Ridden With Pride</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING ACTION BUTTONS -->
+<div class="fab-stack">
+  <a class="fab fab-wa" href="https://wa.me/919035842066" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg class="i" style="width:26px;height:26px"><use href="#ic-wa"/></svg></a>
+  <a class="fab fab-call" href="tel:+919035842066" aria-label="Call the workshop"><svg class="i" style="width:24px;height:24px"><use href="#ic-phone"/></svg></a>
+  <button class="fab fab-top" id="fabTop" aria-label="Back to top"><svg class="i"><use href="#ic-up"/></svg></button>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $  = function(s,c){return (c||document).querySelector(s);};
+  var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+
+  /* Footer year */
+  var y=$('#yearNow'); if(y) y.textContent=new Date().getFullYear();
+
+  /* Header shrink + scroll progress + back-to-top visibility */
+  var header=$('#siteHeader'), fill=$('#scrollFill'), fabTop=$('#fabTop');
+  function onScroll(){
+    var st=window.pageYOffset||document.documentElement.scrollTop;
+    if(header) header.classList.toggle('shrink', st>40);
+    if(fill){
+      var h=document.documentElement.scrollHeight-window.innerHeight;
+      fill.style.width=(h>0?(st/h*100):0)+'%';
+    }
+    if(fabTop) fabTop.classList.toggle('show', st>500);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(fabTop) fabTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+
+  /* Mobile menu */
+  var burger=$('#hamburger'), nav=$('#primaryNav');
+  if(burger&&nav){
+    burger.addEventListener('click',function(){
+      var open=nav.classList.toggle('open');
+      burger.classList.toggle('open',open);
+      burger.setAttribute('aria-expanded',open?'true':'false');
+    });
+    $$('a',nav).forEach(function(a){a.addEventListener('click',function(){
+      nav.classList.remove('open'); burger.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    });});
+  }
+
+  /* Reveal on scroll */
+  if('IntersectionObserver' in window){
+    var ro=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } });
+    },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    $$('.reveal').forEach(function(el){ if(!el.classList.contains('in')) ro.observe(el); });
+  } else { $$('.reveal').forEach(function(el){el.classList.add('in');}); }
+
+  /* Animated counters */
+  function animCount(el){
+    var target=parseFloat(el.getAttribute('data-target'))||0;
+    var dec=parseInt(el.getAttribute('data-dec')||'0',10);
+    var start=null, dur=1600;
+    function fmt(v){ return dec? v.toFixed(dec) : Math.round(v).toLocaleString('en-IN'); }
+    function step(ts){
+      if(!start) start=ts;
+      var p=Math.min((ts-start)/dur,1), eased=1-Math.pow(1-p,3);
+      el.textContent=fmt(target*eased);
+      if(p<1) requestAnimationFrame(step); else el.textContent=fmt(target);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var co=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ animCount(e.target); co.unobserve(e.target); } });
+    },{threshold:.5});
+    $$('.counter').forEach(function(el){co.observe(el);});
+  } else { $$('.counter').forEach(animCount); }
+
+  /* Bike gallery: brand filter, animated bg, Book overlay, count + pop */
+  var grid=$('#bikeGrid'), fbtns=$$('.f-btn'), cards=$$('#bikeGrid .bike-card');
+  if(grid && cards.length){
+    /* animated background glow */
+    var bikesSec=document.getElementById('bikes');
+    if(bikesSec && !$('.glow',bikesSec)){
+      var g=document.createElement('div'); g.className='glow';
+      bikesSec.insertBefore(g,bikesSec.firstChild);
+    }
+    /* "Book Service" overlay on each card */
+    cards.forEach(function(c){
+      var art=$('.bike-art',c);
+      if(art && !$('.bike-cta',c)){
+        var name=(($('h4',c)||{}).textContent||'this bike').trim();
+        var a=document.createElement('a');
+        a.className='bike-cta'; a.href='#contact';
+        a.textContent='Book Service →';
+        a.setAttribute('aria-label','Book a service for '+name);
+        art.appendChild(a);
+      }
+    });
+    /* Brand logos — auto-appear once matching files exist in images/brands/ */
+    var BRAND_LOGOS={bajaj:'bajaj',ktm:'ktm',tvs:'tvs',hero:'hero',honda:'honda',yamaha:'yamaha',re:'royal_enfield',kawasaki:'kawasaki',bmw:'bmw'};
+    cards.forEach(function(c){
+      var key=c.getAttribute('data-brand'), tag=$('.brand-tag',c);
+      if(tag && BRAND_LOGOS[key]){
+        var label=tag.textContent, img=new Image();
+        img.className='brand-logo'; img.alt=label;
+        img.onload=function(){ tag.textContent=''; tag.classList.add('has-logo'); tag.appendChild(img); };
+        img.src='images/brands/'+BRAND_LOGOS[key]+'.png';
+      }
+    });
+    fbtns.forEach(function(b){
+      var key=b.getAttribute('data-f');
+      if(BRAND_LOGOS[key]){
+        var img=new Image(); img.className='f-logo'; img.alt='';
+        img.onload=function(){ b.insertBefore(img,b.firstChild); };
+        img.src='images/brands/'+BRAND_LOGOS[key]+'.png';
+      }
+    });
+    /* live result count */
+    var count=document.createElement('p'); count.className='bike-count';
+    var fr=$('#filterRow');
+    if(fr && fr.parentNode) fr.parentNode.insertBefore(count,fr.nextSibling);
+    function applyFilter(f){
+      var shown=0;
+      cards.forEach(function(c){
+        var show=(f==='all')||c.getAttribute('data-brand')===f;
+        c.classList.toggle('hide',!show);
+        if(show){
+          c.style.animationDelay=(shown*0.035)+'s';
+          c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop');
+          shown++;
+        }
+      });
+      if(count) count.innerHTML='Showing <b>'+shown+'</b> of '+cards.length+' machines';
+    }
+    fbtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        fbtns.forEach(function(x){x.classList.remove('active');});
+        b.classList.add('active');
+        applyFilter(b.getAttribute('data-f'));
+      });
+    });
+    applyFilter('all');
+  }
+
+  /* Testimonial slider */
+  var slidesWrap=$('#testiSlides'), navWrap=$('#testiNav');
+  if(slidesWrap&&navWrap){
+    var slides=$$('.t-slide',slidesWrap), idx=0, dots=[];
+    function go(i){
+      idx=(i+slides.length)%slides.length;
+      slidesWrap.style.transform='translateX('+(-idx*100)+'%)';
+      dots.forEach(function(d,j){d.classList.toggle('active',j===idx);});
+    }
+    slides.forEach(function(_,i){
+      var d=document.createElement('button');
+      d.setAttribute('aria-label','Go to review '+(i+1));
+      if(i===0) d.classList.add('active');
+      d.addEventListener('click',function(){go(i);restart();});
+      navWrap.appendChild(d); dots.push(d);
+    });
+    var prev=$('#tPrev'), next=$('#tNext'), timer;
+    function restart(){ clearInterval(timer); timer=setInterval(function(){go(idx+1);},6000); }
+    if(prev) prev.addEventListener('click',function(){go(idx-1);restart();});
+    if(next) next.addEventListener('click',function(){go(idx+1);restart();});
+    restart();
+  }
+
+  /* FAQ accordion */
+  $$('.faq-item').forEach(function(item){
+    var q=$('.faq-q',item), a=$('.faq-a',item);
+    if(!q||!a) return;
+    if(item.classList.contains('open')) a.style.maxHeight=a.scrollHeight+'px';
+    q.addEventListener('click',function(){
+      var open=item.classList.toggle('open');
+      if(open){
+        $$('.faq-item.open').forEach(function(o){
+          if(o!==item){ o.classList.remove('open'); var oa=$('.faq-a',o); if(oa) oa.style.maxHeight=null; }
+        });
+        a.style.maxHeight=a.scrollHeight+'px';
+      } else { a.style.maxHeight=null; }
+    });
+  });
+
+  /* Hero spark particles */
+  var sf=$('#sparkField');
+  if(sf && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    for(var i=0;i<14;i++){
+      var s=document.createElement('i');
+      s.style.left=(10+Math.random()*80)+'%';
+      s.style.bottom=(Math.random()*30)+'%';
+      s.style.animationDelay=(Math.random()*3.6)+'s';
+      s.style.setProperty('--dx',(Math.random()*60-30)+'px');
+      sf.appendChild(s);
+    }
+  }
+
+  /* Booking form -> WhatsApp */
+  var WA_NUMBER='919035842066'; /* TODO: replace with the real WhatsApp number */
+  var form=$('#bookForm');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var v=function(id){var el=$(id);return el?(''+el.value).trim():'';};
+      var name=v('#fName'), phone=v('#fPhone');
+      if(!name||!phone){ alert('Please enter your name and phone number.'); return; }
+      var lines=[
+        '*New Service Booking*',
+        'Name: '+name,
+        'Phone: '+phone,
+        'Bike: '+v('#fBike'),
+        'Service: '+v('#fService')
+      ];
+      if(v('#fDate')) lines.push('Preferred Date: '+v('#fDate'));
+      if(v('#fMsg'))  lines.push('Notes: '+v('#fMsg'));
+      window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(lines.join('\n')),'_blank');
+    });
+  }
+})();
+</script>
+</body>
+</html>
