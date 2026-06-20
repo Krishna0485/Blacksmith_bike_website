@@ -155,6 +155,7 @@ button{font-family:inherit;cursor:pointer;}
 header.site{
   position:sticky;top:0;z-index:100;
   background:rgba(11,23,48,.86);
+  -webkit-backdrop-filter:blur(10px);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line-dark);
   transition:padding .25s var(--ease);
@@ -651,6 +652,89 @@ footer .kannada{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(
 .svc-card:hover .i,.wf-card:hover .i{transform:scale(1.12) rotate(-4deg);}
 @media (prefers-reduced-motion: reduce){
   .hero-art img,.cta-banner,.fab-wa{animation:none !important;}
+}
+
+/* ============================================================
+   19. MOBILE RESPONSIVE POLISH
+=============================================================== */
+/* Stat plate → 2×2 from tablet down */
+@media(max-width:860px){
+  .stat-plate{grid-template-columns:repeat(2,1fr);}
+  .stat-plate div:nth-child(2){border-right:none;}
+  .stat-plate div:nth-child(1),.stat-plate div:nth-child(2){border-bottom:1px solid var(--line-dark);}
+}
+/* Small tablets / large phones ≤640px */
+@media(max-width:640px){
+  .wrap{padding:0 16px;}
+  .section{padding:52px 0;}
+  .section-head{margin-bottom:30px;}
+  .section-head h2{font-size:clamp(24px,6.5vw,34px);}
+  /* Hero */
+  .hero{padding-top:52px;}
+  .hero-grid{gap:24px;padding-bottom:44px;}
+  .hero-art{max-height:260px;aspect-ratio:unset;border-radius:14px;}
+  .hero-art img{width:70%;}
+  .hero-sub{font-size:15px;margin:14px 0 20px;}
+  .hero-cta{gap:10px;}
+  /* Why: workshop features 1 col */
+  .workshop-feat{grid-template-columns:1fr;}
+  /* Filter buttons */
+  .filter-row{gap:7px;}
+  .f-btn{padding:8px 12px;font-size:11px;letter-spacing:.04em;}
+  .f-btn.has-logo{padding:4px 9px;}
+  /* Bike brand tag */
+  .bike-art .brand-tag{font-size:10px;padding:4px 7px;top:7px;left:7px;}
+  /* CTA banner */
+  .cta-inner{flex-direction:column;align-items:center;text-align:center;gap:18px;}
+  .cta-inner .btn-brass{align-self:center;}
+  /* Contact form */
+  .book-form{padding:22px 16px;}
+  /* Testimonial */
+  .t-card{padding:28px 18px;}
+  .t-card p.quote{font-size:15px;}
+  /* Pricing: no scale on featured */
+  .price-card.feat{transform:none;}
+  /* Footer */
+  .foot-brand img{width:52px;height:52px;}
+  .foot-brand b{font-size:18px;}
+  /* Process step text */
+  .p-step h4{font-size:14.5px;}
+  .p-step p{font-size:12.5px;}
+}
+/* Mobile phones ≤480px */
+@media(max-width:480px){
+  .wrap{padding:0 14px;}
+  /* Hero headline */
+  .hero h1{font-size:clamp(26px,8vw,34px);}
+  /* Stack CTA buttons vertically */
+  .hero-cta{flex-direction:column;}
+  .hero-cta .btn{width:100%;justify-content:center;padding:13px 18px;}
+  /* Stat plate: compact numbers */
+  .stat-plate b{font-size:clamp(18px,5.5vw,26px);}
+  .stat-plate span{font-size:9.5px;letter-spacing:.03em;}
+  .stat-plate div{padding:16px 10px;}
+  /* Why items */
+  .why-item{padding:14px;}
+  .why-item h4{font-size:14.5px;}
+  .why-item p{font-size:13px;}
+  /* Workshop feature cards */
+  .wf-card{padding:16px 14px;}
+  .wf-card h4{font-size:14px;}
+  .wf-card p{font-size:12.5px;}
+  /* Services */
+  .svc-card{padding:20px 16px;}
+  .svc-card h3{font-size:17px;}
+  /* Bike brand tag very small */
+  .bike-art .brand-tag{font-size:9.5px;padding:3px 6px;border-radius:4px;}
+  /* Bike body */
+  .bike-body{padding:12px 12px 14px;}
+  .bike-body h4{font-size:14.5px;}
+  /* FAQ */
+  .faq-q{font-size:15px;padding:18px 4px;}
+  /* Topbar: stack vertically if needed */
+  .topbar .wrap{height:auto;padding:6px 14px;}
+  /* Footer bottom: stack */
+  .foot-bottom{flex-direction:column;gap:6px;text-align:center;}
 }
 </style>
 </head>
