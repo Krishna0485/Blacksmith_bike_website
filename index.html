@@ -265,7 +265,7 @@ nav.primary a:hover::after{width:100%;}
 }
 .stat-plate div{padding:26px 18px;text-align:center;border-right:1px solid var(--line-dark);}
 .stat-plate div:last-child{border-right:none;}
-.stat-plate b{display:block;font-family:'Oswald',sans-serif;font-size:clamp(22px,3vw,32px);color:var(--brass);}
+.stat-plate b{display:block;font-family:'Oswald',sans-serif;font-size:clamp(22px,3vw,32px);color:var(--ember);}
 .stat-plate span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:rgba(243,236,220,.65);}
 @media(max-width:700px){.stat-plate{grid-template-columns:repeat(2,1fr);}.stat-plate div:nth-child(2){border-right:none;}.stat-plate div:nth-child(1),.stat-plate div:nth-child(2){border-bottom:1px solid var(--line-dark);}}
 
@@ -391,16 +391,17 @@ nav.primary a:hover::after{width:100%;}
 }
 .bike-card:hover{transform:translateY(-5px);border-color:var(--brass);}
 .bike-art{
-  aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;
-  background:
-    radial-gradient(circle at 50% 60%, rgba(210,59,46,.1), transparent 65%);
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  background:var(--ink-2)
+    radial-gradient(circle at 50% 60%, rgba(210,59,46,.08), transparent 65%);
   border-bottom:1px solid rgba(243,236,220,.1);
   position:relative;
-  padding:14px;
+  overflow:hidden;
+  padding:0;
 }
 .bike-art .i{width:80%;height:80%;color:var(--cream);opacity:.9;stroke-width:1.1;}
-.bike-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
-.bike-card:hover .bike-art img{transform:scale(1.08);}
+.bike-art img{position:absolute;top:15px;left:15px;width:calc(100% - 30px);height:calc(100% - 30px);object-fit:contain;object-position:center center;transition:transform .5s var(--ease);}
+.bike-card:hover .bike-art img{transform:scale(1.05);}
 .bike-card.hide{display:none;}
 
 /* ---- Gallery enhancement: per-brand colour, overlays, motion ---- */
@@ -420,9 +421,11 @@ nav.primary a:hover::after{width:100%;}
 .bike-art{padding:0;}
 .bike-art::after{content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg,rgba(13,18,24,0) 34%,rgba(13,18,24,.5) 76%,rgba(13,18,24,.92));}
-.bike-art .brand-tag{z-index:3;top:12px;left:12px;background:var(--bc);
-  border:1px solid rgba(255,255,255,.28);box-shadow:0 4px 12px rgba(0,0,0,.4);
-  font-weight:600;border-radius:3px;}
+.bike-art .brand-tag{position:absolute;z-index:3;top:10px;left:10px;
+  background:#fff;border:1px solid rgba(0,0,0,.15);box-shadow:0 2px 8px rgba(0,0,0,.35);
+  border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--bc);padding:5px 10px;
+  white-space:nowrap;line-height:1;}
 .bike-cta{position:absolute;z-index:3;left:0;right:0;bottom:0;
   display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;
   font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.07em;font-size:13px;
@@ -430,9 +433,9 @@ nav.primary a:hover::after{width:100%;}
 .bike-card:hover .bike-cta{transform:translateY(0);}
 /* brand logos (auto-used when files exist in images/brands/) */
 .f-btn{display:inline-flex;align-items:center;gap:8px;}
-.f-btn .f-logo{height:15px;width:auto;display:block;}
-.bike-art .brand-tag.has-logo{background:#fff;border-color:rgba(0,0,0,.14);padding:5px 9px;}
-.bike-art .brand-tag img.brand-logo{height:18px;width:auto;display:block;}
+.f-btn.has-logo{background:#fff;border-color:rgba(0,0,0,.18);color:inherit;padding:6px 12px;}
+.f-btn.has-logo:hover{background:#f5f5f5;border-color:rgba(0,0,0,.3);}
+.f-btn .f-logo{height:16px;width:auto;display:block;background:transparent;padding:0;}
 .bike-body{border-left:3px solid var(--bc);}
 .bike-body h4{font-size:16.5px;}
 .bike-body .cc{color:var(--bc);filter:brightness(1.4) saturate(.85);}
@@ -453,11 +456,6 @@ nav.primary a:hover::after{width:100%;}
 @keyframes bgFloat{0%{transform:translate3d(0,0,0) scale(1);}100%{transform:translate3d(0,-26px,0) scale(1.1);}}
 .bikes-section .wrap{position:relative;z-index:1;}
 @media (prefers-reduced-motion: reduce){.bikes-section .glow{animation:none;}}
-.bike-art .brand-tag{
-  position:absolute;top:10px;left:10px;
-  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
-  background:var(--ember);color:var(--paper);padding:4px 8px;
-}
 .bike-body{padding:18px 18px 20px;}
 .bike-body h4{font-size:16px;color:var(--cream);margin-bottom:4px;letter-spacing:.01em;}
 .bike-body .cc{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--brass);margin-bottom:12px;display:block;}
@@ -1417,24 +1415,22 @@ footer .kannada{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(
         art.appendChild(a);
       }
     });
-    /* Brand logos — auto-appear once matching files exist in images/brands/ */
+    /* Brand logos — drop files in images/brands/ (png preferred, svg/jpg fallback) */
     var BRAND_LOGOS={bajaj:'bajaj',ktm:'ktm',tvs:'tvs',hero:'hero',honda:'honda',yamaha:'yamaha',re:'royal_enfield',kawasaki:'kawasaki',bmw:'bmw'};
-    cards.forEach(function(c){
-      var key=c.getAttribute('data-brand'), tag=$('.brand-tag',c);
-      if(tag && BRAND_LOGOS[key]){
-        var label=tag.textContent, img=new Image();
-        img.className='brand-logo'; img.alt=label;
-        img.onload=function(){ tag.textContent=''; tag.classList.add('has-logo'); tag.appendChild(img); };
-        img.src='images/brands/'+BRAND_LOGOS[key]+'.png';
-      }
-    });
+    function loadBrandLogo(name, onok){
+      var exts=['svg','png','jpg'], i=0, img=new Image();
+      img.onload=function(){ onok(img); };
+      img.onerror=function(){ if(++i<exts.length) img.src='images/brands/'+name+'.'+exts[i]; };
+      img.src='images/brands/'+name+'.'+exts[0];
+    }
     fbtns.forEach(function(b){
-      var key=b.getAttribute('data-f');
-      if(BRAND_LOGOS[key]){
-        var img=new Image(); img.className='f-logo'; img.alt='';
-        img.onload=function(){ b.insertBefore(img,b.firstChild); };
-        img.src='images/brands/'+BRAND_LOGOS[key]+'.png';
-      }
+      var key=b.getAttribute('data-f'); if(!BRAND_LOGOS[key]) return;
+      var label=b.textContent;
+      loadBrandLogo(BRAND_LOGOS[key], function(img){
+        img.className='f-logo'; img.alt=label;
+        b.textContent=''; b.setAttribute('aria-label',label);
+        b.classList.add('has-logo'); b.appendChild(img);
+      });
     });
     /* live result count */
     var count=document.createElement('p'); count.className='bike-count';
